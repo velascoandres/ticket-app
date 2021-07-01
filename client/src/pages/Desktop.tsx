@@ -1,7 +1,9 @@
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons';
 
 import { Button, Col, Divider, Row, Typography } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router';
+import { getUserStorage } from '../helpers/getUserStorage';
 
 
 const { Title, Text } = Typography;
@@ -9,8 +11,19 @@ const { Title, Text } = Typography;
 
 export const Desktop: React.FC = () => {
 
-    const exit = () => { };
+    const [{ agent, desktop }, setUser] = useState<{ agent: string; desktop: string }>(getUserStorage());
+
+
+    const exit = () => {
+        localStorage.removeItem('desktop');
+        localStorage.removeItem('agent');
+        setUser({agent: '', desktop: ''});
+     };
     const nextTicket = () => { };
+
+    if (!agent && !desktop){
+        return <Redirect to="/enter"/>
+    }
 
     return (
         <>

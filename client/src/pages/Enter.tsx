@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Form, Input, Button, InputNumber, Typography, Divider } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { useHideMenu } from '../hooks/useHideMenu';
+import { getUserStorage } from '../helpers/getUserStorage';
 
 
 const { Title, Text } = Typography;
@@ -12,12 +14,23 @@ export const Enter: React.FC = () => {
 
     const history = useHistory();
 
-    const onFinish = () => {
+    const [{ agent, desktop }] = useState<{ agent: string; desktop: string }>(getUserStorage());
+
+    useHideMenu(false);
+
+
+    const onFinish = ({ agent, desktop }: { agent: string; desktop: string }) => {
+        localStorage.setItem('agent', agent);
+        localStorage.setItem('desktop', desktop);
         history.push('desktop');
     };
     const onFinishFailed = () => {
 
     };
+
+    if (agent && desktop){
+        return <Redirect to="/desktop"/>
+    }
 
     return (
         <>
@@ -37,7 +50,7 @@ export const Enter: React.FC = () => {
             >
                 <Form.Item
                     label="Agent Name"
-                    name="username"
+                    name="agent"
                     rules={[{ required: true, message: 'Please input your name!' }]}
                 >
                     <Input />

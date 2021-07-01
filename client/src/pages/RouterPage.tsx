@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import {
     BrowserRouter as Router,
@@ -17,17 +17,22 @@ import { CreateTicket } from './CreateTicket';
 import { Queue } from './Queue';
 import { Desktop } from './Desktop';
 import { Enter } from './Enter';
+import { UiContext } from '../context/UiContext';
 
 const { Sider, Content } = Layout;
 
 
 export const RouterPage = () => {
+
+    const { hidden } = useContext(UiContext);
+
     return (
         <Router >
             <Layout style={{ height: '100vh' }}>
                 <Sider
                     collapsedWidth="0"
                     breakpoint="md"
+                    hidden={hidden}
                 >
                     <div className="logo" />
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>

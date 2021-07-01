@@ -4,11 +4,14 @@ import { Card, Col, Divider, List, Row, Tag, Typography } from 'antd'
 
 import { QUEUE } from '../mocks/queue';
 import { ITicket } from '../interfaces/ticket.interface';
+import { useHideMenu } from '../hooks/useHideMenu';
 
 
 const { Title, Text } = Typography;
 
 export const Queue: React.FC = () => {
+    
+    useHideMenu(true);
 
     const renderItem = (ticket: ITicket) => {
         return (
@@ -30,7 +33,7 @@ export const Queue: React.FC = () => {
         );
     }
 
-    const renderItemMeta = ({ticketNumber, desktop, agent}: ITicket) => {
+    const renderItemMeta = ({ ticketNumber, desktop, agent }: ITicket) => {
         return (
             <List.Item>
                 <List.Item.Meta
@@ -38,13 +41,13 @@ export const Queue: React.FC = () => {
                     description={
                         <>
                             <Text type="secondary">
-                                At the desktop: 
+                                At the desktop:
                             </Text>
                             <Tag color="magenta">
                                 {desktop}
                             </Tag>
                             <Text type="secondary">
-                                Agent: 
+                                Agent:
                             </Text>
                             <Tag color="volcano">
                                 {agent}
