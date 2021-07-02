@@ -28,6 +28,12 @@ class Sockets {
                     },
                 );
 
+                socket.on('next-ticket', ({ agent, desktop }: { agent: string; desktop: string }, cb) => {
+                    const ticket = this.ticketList.assignTicket(agent, desktop);
+                    this.io.emit('last-13', this.ticketList.last13);
+                    cb(ticket);
+                });
+
             }
         );
     }

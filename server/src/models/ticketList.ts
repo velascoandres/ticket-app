@@ -28,15 +28,16 @@ class TicketList {
         return newTicket;
     }
 
-    assignTicket(agent: string, desktop: number): void {
+    assignTicket(agent: string, desktop: string): Ticket | null {
 
         if (this.pendings.length === 0) {
-            return;
+            return null;
         }
         const nextTicket = this.pendings.shift() as Ticket;
         nextTicket.agent = agent;
         nextTicket.desktop = desktop;
         this.assigned.unshift(nextTicket);
+        return nextTicket;
     }
 
 

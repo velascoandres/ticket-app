@@ -3,7 +3,7 @@ import { v4 as uuiv4 } from 'uuid';
 class Ticket {
 
     public readonly id: string;
-    public desktop: number | null;
+    public desktop: string | null;
     public agent: string | null;
 
     constructor(
