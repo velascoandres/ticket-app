@@ -4,7 +4,7 @@ import { TicketList } from './ticketList';
 
 class Sockets {
 
-    private readonly ticketList: TicketList;
+    public readonly ticketList: TicketList;
 
     constructor(
         private readonly io: Server,

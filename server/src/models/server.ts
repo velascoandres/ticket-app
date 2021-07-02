@@ -1,7 +1,7 @@
 import * as http from 'http';
 import { resolve } from 'path';
 
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import * as socketio from 'socket.io';
 import cors from 'cors';
 
@@ -16,6 +16,7 @@ class Server {
     private port: number;
     private server: http.Server;
     private io: socketio.Server;
+    private sockets: Sockets;
 
     constructor(
 
@@ -26,14 +27,16 @@ class Server {
         this.server = http.createServer(this.app);
         // socket config
         this.io = new socketio.Server(this.server);
+        // init sockets
+        this.sockets = new Sockets(this.io);
 
     }
 
     execute(): void {
         // init middlewares
         this.initMiddlewares();
-        // handle web sockets
-        this.configSockets();
+        // init controllers
+        this.initControllers();
         // init server
         this.server.listen(
             this.port,
@@ -50,8 +53,19 @@ class Server {
         this.app.use('/', express.static(resolve(__dirname + './../../public')))
     }
 
-    private configSockets(): void {
-        new Sockets(this.io);
+    // private configSockets(): void {
+    //     this.sockets = new Sockets(this.io);
+    // }
+
+    private initControllers() {
+        this.app.get('/last-tickets', (req: Request, res: Response) => {
+            return res.json(
+                {
+                    ok: true,
+                    tickets: this.sockets.ticketList.last13,
+                }
+            );
+        });
     }
 
 
