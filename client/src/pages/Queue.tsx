@@ -5,6 +5,7 @@ import { Card, Col, Divider, List, Row, Tag, Typography } from 'antd'
 import { ITicket } from '../interfaces/ticket.interface';
 import { useHideMenu } from '../hooks/useHideMenu';
 import { SocketContext } from '../context/SocketContext';
+import { getLastTickets } from '../helpers/getLastTickets';
 
 
 const { Title, Text } = Typography;
@@ -16,6 +17,17 @@ export const Queue: React.FC = () => {
     const [tickets, setTickets] = useState<ITicket[]>([]);
 
     useHideMenu(true);
+
+
+    useEffect(() => {
+        getLastTickets()
+            .then(
+                (tickets: ITicket[]) => {
+                    setTickets(tickets);
+                },
+            );
+    }, []);
+
 
     useEffect(() => {
         socket.on('assign-tickets', (assignmentTickets: ITicket[]) => {

@@ -42,9 +42,9 @@ export const Desktop: React.FC = () => {
         <>
             <Row>
                 <Col span={20}>
-                    <Title level={2}>Andrés</Title>
+                    <Title level={2}>{agent}</Title>
                     <Text>You are working on the desktop: </Text>
-                    <Text type="success"> 5 </Text>
+                    <Text type="success"> {desktop} </Text>
                 </Col>
 
                 <Col span={4}>
