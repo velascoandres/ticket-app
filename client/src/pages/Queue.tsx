@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Card, Col, Divider, List, Row, Tag, Typography } from 'antd'
 
-import { QUEUE } from '../mocks/queue';
 import { ITicket } from '../interfaces/ticket.interface';
 import { useHideMenu } from '../hooks/useHideMenu';
+import { SocketContext } from '../context/SocketContext';
 
 
 const { Title, Text } = Typography;
 
 export const Queue: React.FC = () => {
-    
+
+    const { socket } = useContext(SocketContext);
+
+    const [tickets, setTickets] = useState<ITicket[]>([]);
+
     useHideMenu(true);
+
+    useEffect(() => {
+        socket.on('assign-tickets', (assignmentTickets: ITicket[]) => {
+            setTickets(assignmentTickets);
+        });
+        return () => {
+            socket.off('assign-tickets');
+        }
+    }, [socket]);
 
     const renderItem = (ticket: ITicket) => {
         return (
@@ -69,14 +82,14 @@ export const Queue: React.FC = () => {
             <Row>
                 <Col span={12}>
                     <List
-                        dataSource={QUEUE.slice(0, 3)}
+                        dataSource={tickets.slice(0, 3)}
                         renderItem={renderItem}
                     />
                 </Col>
                 <Col span={12}>
                     <Divider>History</Divider>
                     <List
-                        dataSource={QUEUE.slice(3)}
+                        dataSource={tickets.slice(3)}
                         renderItem={renderItemMeta}
                     />
                 </Col>
