@@ -1,14 +1,19 @@
 import React from 'react';
-import { RouterPage } from './pages/RouterPage';
-import 'antd/dist/antd.css';
-import { UiProvider } from './context/UiContext';
 
-function App() {
+import { RouterPage } from './pages/RouterPage';
+import { UiProvider } from './context/UiContext';
+import { SocketProvider } from './context/SocketContext';
+
+import 'antd/dist/antd.css';
+
+const App: React.FC = () => {
   return (
     <>
-      <UiProvider>
-        <RouterPage />
-      </UiProvider>
+      <SocketProvider>
+        <UiProvider>
+          <RouterPage />
+        </UiProvider>
+      </SocketProvider>
     </>
   );
 }
